@@ -1,1 +1,1 @@
-# staticlovelyweb
+# staticweb
