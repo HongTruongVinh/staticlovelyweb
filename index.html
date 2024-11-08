@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1149,36 +1149,32 @@
                 ]
             );
 
-            textPoints = centerTextPoints(textPoints, canvas);
+            textPoints = translateTextAboveHeart(pointsOrigin, textPoints);
+            
+            function translateTextAboveHeart(arr1, arr2, offsetY = 10) {
+                const minXHeart = Math.min(...arr1.map(point => point[0]));
+                const minYHeart = Math.min(...arr1.map(point => point[1]));
 
-            function centerTextPoints(pointsOrigin, canvas) {
-                // Tính trung tâm của `pointsOrigin`
-                let sumX = 0, sumY = 0;
-                for (let [x, y] of pointsOrigin) {
-                    sumX += x;
-                    sumY += y;
-                }
-                const centerX = sumX / pointsOrigin.length;
-                const centerY = sumY / pointsOrigin.length;
+                console.log(arr1);
+                console.log("minXHeart: " + minXHeart);
+                console.log("minYHeart: " + minYHeart);
 
-                // Tính vị trí trung tâm của canvas
-                const canvasCenterX = canvas.width / 7.5;
-                const canvasCenterY = canvas.height / 25;
+                const minXText = Math.min(...arr2.map(point => point[0]));
+                const maxYText = Math.max(...arr2.map(point => point[1]));
 
-                // Tính khoảng dịch để đưa `pointsOrigin` vào giữa canvas
-                const offsetX = canvasCenterX - centerX;
-                const offsetY = canvasCenterY - centerY;
+                console.log(arr2);
+                console.log("minXText: " + minXText);
+                console.log("maxYText: " + maxYText);
 
-                // Dịch từng điểm trong `pointsOrigin` về trung tâm canvas
-                const centeredPoints = pointsOrigin.map(([x, y]) => [x + offsetX, y + offsetY]);
+                const translateX = minXHeart - minXText;
+                const translateY = (minYHeart - offsetY) - maxYText;
 
-                return centeredPoints;
-            }
+                const translatedArr2 = arr2.map(([x, y]) => [
+                    x + translateX,
+                    y + translateY 
+                ]);
 
-
-            for (i = 0; i < textPoints.length; i++) {
-                var textPoint = textPoints[i];
-                textPoints[i] = [textPoint[0] - width / 8, textPoint[1] - height / 3];
+                return translatedArr2;
             }
 
             var targetPoints = [];
